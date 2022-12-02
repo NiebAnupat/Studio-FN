@@ -1,12 +1,20 @@
 <template>
   <v-app>
     <div>
-      <v-app-bar dark>
-        <v-icon>mdi-guitar-electric</v-icon>
-        <v-toolbar-title class="mx-5">i - Zank Studio's</v-toolbar-title>
+      <v-app-bar dark v-if="isAuth">
+        <v-btn icon class="mx-2" to="/"
+          ><v-icon>mdi-guitar-electric</v-icon></v-btn
+        >
+        <v-toolbar-title class="mx-n4">i - Zank Studio's</v-toolbar-title>
+
+        <div v-if="isAdmin" class="mx-12">
+          <v-btn text to="/Cometo/Admin/Detail">หน้าหลัก</v-btn>
+          <v-btn text to="/Cometo/Admin/Report" class="mx-2">รายงาน</v-btn>
+        </div>
 
         <v-spacer></v-spacer>
 
+        <!-- Login / Logout -->
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
@@ -15,9 +23,7 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-list-item-title
-                ><v-btn text nuxt to="/admin">login</v-btn></v-list-item-title
-              >
+              <v-btn text @click="logout">Login</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -33,13 +39,28 @@
 <script>
 export default {
   name: 'DefaultLayout',
+
   data() {
     return {
       dialog: false,
       show1: false,
-      id: '',
-      password: '',
     }
+  },
+
+  methods: {
+    async logout() {
+      await this.$store.dispatch('Auth/setAdminFalse')
+      this.$router.push('/Cometo/Admin')
+    },
+  },
+
+  computed: {
+    isAdmin() {
+      return this.$store.getters['Auth/isAdmin']
+    },
+    isAuth() {
+      return this.$store.getters['Auth/isAuth']
+    },
   },
 }
 </script>

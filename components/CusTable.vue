@@ -76,11 +76,18 @@ export default {
       dialog: false,
       detail: [
         {
-          name: 'John',
+          name: 'นาย ศราวุธ พันธ์ดี',
           tel: '0812345678',
           date: '2020-01-01',
           start: '08:00',
           end: '17:00',
+        },
+        {
+          name: 'นาย ชัยวัฒน์ แสงศรี',
+          tel: '0912345678',
+          date: '2020-01-02',
+          start: '10.30',
+          end: '19.00',
         },
       ],
       total: 2000,
