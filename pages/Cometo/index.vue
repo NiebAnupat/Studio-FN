@@ -4,7 +4,7 @@
       <!-- Images -->
       <v-col cols="4">
         <v-card class="rounded-lg">
-          <v-carousel :show-arrows="false" cycle>
+          <v-carousel :show-arrows="false" height="600" cycle>
             <v-carousel-item
               v-for="(image, i) in rImage"
               :key="i"
@@ -222,9 +222,12 @@ export default {
       type: ['ห้องเล็ก', 'ห้องกลาง', 'ห้องใหญ่'],
 
       rImage: [
-        require('~/assets/Pic01.jpg'),
-        require('~/assets/Pic04.jpg'),
-        require('~/assets/Pic05.jpg'),
+        require('~/assets/show01.png'),
+        require('~/assets/show02.png'),
+        require('~/assets/show03.png'),
+        require('~/assets/show04.png'),
+        require('~/assets/show05.png'),
+        require('~/assets/show06.png'),
       ],
     }
   },

@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-center mt-8">
       <v-card class="d-flex justify-center">
-        <img src="~/assets/Pic07.png" height="600" width="1200" />
+        <img src="~/assets/BG.png" height="600" width="1200" />
       </v-card>
     </div>
     <div class="d-flex justify-center mt-8">
