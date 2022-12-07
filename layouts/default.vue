@@ -2,7 +2,7 @@
   <v-app>
     <div>
       <v-app-bar dark v-if="isAuth">
-        <v-btn icon class="mx-2" to="/"
+        <v-btn icon class="mx-2"@click="goHome"
           ><v-icon>mdi-guitar-electric</v-icon></v-btn
         >
         <v-toolbar-title class="mx-n4">i - Zank Studio's</v-toolbar-title>
@@ -52,6 +52,11 @@ export default {
       await this.$store.dispatch('Auth/setAdminFalse')
       this.$router.push('/Cometo/Admin')
     },
+
+    goHome(){
+      this.$store.dispatch('Auth/setAdminFalse')
+      this.$router.push('/')
+    }
   },
 
   computed: {

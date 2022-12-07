@@ -9,6 +9,7 @@
               :items="month"
               label="เดือน"
               dense
+              v-model="selected"
             ></v-select> </v-container
         ></v-col>
         <v-spacer></v-spacer>
@@ -22,7 +23,7 @@
     <div class="mt-2">
       <v-card class="rounded-xl pa-6" height="500">
         <div>
-          <Report />
+          <Report :rents="rents" />
         </div>
       </v-card>
     </div>
@@ -61,6 +62,20 @@ export default {
     Report,
   },
 
+  async asyncData({ store, $axios }) {
+    store.dispatch('Auth/setAdminTrue')
+    store.dispatch( 'Auth/setAuthTrue' )
+    var rents = await $axios.$get('/rent/all')
+    rents = rents.data
+    var total = 0
+    rents.forEach((element) => {
+      total += element.RN_PRICE
+    })
+    return {
+      rents,total
+    }
+  },
+
   data() {
     return {
       month: [
@@ -77,10 +92,32 @@ export default {
         'พฤศจิกายน',
         'ธันวาคม',
       ],
-
-      total: 0,
+      selected: '',
+      nMonth : '01',
     }
   },
+  watch: {
+    selected(){
+      this.nMonth = this.month.indexOf(this.selected) + 1
+      // nMonth to String 00
+      if(this.nMonth < 10){
+        this.nMonth = '0' + this.nMonth
+      }
+      console.log('/report/by/' + this.nMonth)
+      this.$axios.$get('/report/by/' + this.nMonth).then((res) => {
+        if ( !res ) {
+          this.total = 0
+          this.rents = []
+        } else {
+          // foreach
+          res.forEach((element) => {
+            this.total += element.RN_PRICE
+          })
+          this.rents = res
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="scss"></style>

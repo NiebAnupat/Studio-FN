@@ -5,7 +5,7 @@
     <div class="mt-8">
       <v-card class="rounded-xl pa-6" height="550">
         <div>
-          <CusTable />
+          <CusTable :rents="rents.data" :refreshData="refreshData"/>
         </div>
       </v-card>
     </div>
@@ -14,13 +14,29 @@
 
 <script>
 import CusTable from '~/components/CusTable.vue'
+
 export default {
-  name: 'detail',
-  async aysncData({ store }) {
-    store.dispatch('Auth/setAdminTrue')
+  name : 'detail',
+  async asyncData( { store, $axios } ) {
+    store.dispatch( 'Auth/setAdminTrue' )
+    store.dispatch( 'Auth/setAuthTrue' )
+    const rents = await $axios.$get( '/rent/all' )
+    // console.log( rents.data )
+    return {
+      rents
+    }
   },
 
-  components: {
+  methods : {
+    async refreshData() {
+      const rents = await this.$axios.$get( '/rent/all' )
+      console.log(rents)
+      this.rents = rents
+    }
+  },
+
+
+  components : {
     CusTable,
   },
 }

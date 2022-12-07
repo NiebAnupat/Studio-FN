@@ -10,10 +10,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in detail" :key="item.id">
-            <td class="text-center">{{ item.date }}</td>
-            <td class="text-center">{{ item.type }}</td>
-            <td class="text-center">{{ item.price }}</td>
+          <tr v-for="item in rents" :key="item.RN_ID">
+            <td class="text-center">{{ formarDate(item.RN_DATE) }}</td>
+            <td class="text-center">{{ getTypeName(item.using_room[0].room.R_TYPE) }}</td>
+            <td class="text-center">{{ item.RN_PRICE }}</td>
           </tr>
         </tbody>
       </template>
@@ -41,24 +41,36 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
+  props: {
+    rents: {
+      type: Array,
+      // asyncData: true,
+    },
+  },
   data() {
     return {
       dialog: false,
-      detail: [
-        {
-          date: '2021-05-01',
-          type: 'ห้องเล็ก',
-          price: '1000',
-        },
-        {
-          date: '2021-05-01',
-          type: 'ห้องใหญ่',
-          price: '3000',
-        },
-      ],
       total: 2000,
     }
+  },
+  methods: {
+    getTypeName(typeID){
+      switch (typeID) {
+        case 'sm':
+          return 'ห้องเล็ก'
+        case 'md':
+          return 'ห้องกลาง'
+        case 'lg':
+          return 'ห้องใหญ่'
+        default:
+          return 'ไม่ระบุ'
+      }
+    },
+    formarDate(date) {
+      return moment(date).format("DD/MM/YYYY");
+    },
   },
 }
 </script>

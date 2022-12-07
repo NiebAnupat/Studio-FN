@@ -14,7 +14,6 @@
               label="ชื่อผู้ใช้"
               required
               @keydown.enter="login"
-              v-on:click="login"
             ></v-text-field>
 
             <!-- Input Password -->
@@ -52,11 +51,16 @@ export default {
 
   methods: {
     async login() {
-      if (this.id != '' && this.password != '') {
+      if (this.id == 'admin' && this.password == 'admin') {
         await this.$store.dispatch('Auth/setAdminTrue')
         this.$router.push('./admin/Detail')
       } else {
         this.$store.dispatch('Auth/setAdminFalse')
+        this.$swal({
+          title: 'เข้าสู่ระบบไม่สำเร็จ',
+          text: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+          type: 'error',
+        })
       }
     },
   },
