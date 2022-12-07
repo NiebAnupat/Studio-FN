@@ -157,7 +157,7 @@
           <!-- Button -->
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" :disabled="totalPrice === 0" text nuxt @click="dialog = true">
+            <v-btn color="primary" :disabled="totalPrice === 0" text nuxt @click="checkRoom">
               จอง
             </v-btn>
           </v-card-actions>
@@ -301,10 +301,30 @@ export default {
 
       const rent = await this.$axios.$post( '/rent/', formData )
       this.dialog = false
-      if ( !rent ) {
+      this.$swal( {
+        title : 'จองห้องสำเร็จ',
+        text : 'จองห้องใน วัน-เวลา ที่เลือกสำเร็จ',
+        type : 'success',
+      } )
+    },
+
+    async checkRoom(){
+      const check = await this.$axios.$post('/rent/check-room/', {
+        RN_DATE: this.rent.RN_DATE,
+        RN_START_TIME: this.rent.RN_START_TIME,
+        RN_END_TIME: this.rent.RN_END_TIME,
+        R_TYPE: this.rent.R_TYPE
+      })
+      console.log(check)
+      if(check.isAvailable){
+        this.dialog = true
+      }else {
         this.$swal( 'ห้องถูกใช้งาน', 'ห้องที่ท่านเลือกไม่ว่างในเวลานั้น', 'error' )
       }
     },
+
+
+
 
     calTotalPrice() {
      // if null
